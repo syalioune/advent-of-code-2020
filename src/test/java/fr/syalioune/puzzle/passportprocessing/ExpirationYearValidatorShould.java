@@ -38,13 +38,19 @@ public class ExpirationYearValidatorShould {
     return Stream.of(
         Passport.builder().build(),
         Passport.builder().withExpirationYear("  ").build(),
-        Passport.builder().withExpirationYear("").build()
+        Passport.builder().withExpirationYear("").build(),
+        Passport.builder().withExpirationYear("ab").build(),
+        Passport.builder().withExpirationYear("20").build(),
+        Passport.builder().withExpirationYear("2002").build(),
+        Passport.builder().withExpirationYear("2040").build()
     );
   }
 
   static Stream<Passport> validPassportSource() {
     return Stream.of(
-        Passport.builder().withExpirationYear("e").build()
+        Passport.builder().withExpirationYear("2020").build(),
+        Passport.builder().withExpirationYear("2025").build(),
+        Passport.builder().withExpirationYear("2030").build()
     );
   }
 }

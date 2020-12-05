@@ -38,13 +38,16 @@ public class HairColorValidatorShould {
     return Stream.of(
         Passport.builder().build(),
         Passport.builder().withHairColor("  ").build(),
-        Passport.builder().withHairColor("").build()
+        Passport.builder().withHairColor("").build(),
+        Passport.builder().withHairColor("abc").build(),
+        Passport.builder().withHairColor("#ag").build(),
+        Passport.builder().withHairColor("#zeeae2").build()
     );
   }
 
   static Stream<Passport> validPassportSource() {
     return Stream.of(
-        Passport.builder().withHairColor("h").build()
+        Passport.builder().withHairColor("#123abc").build()
     );
   }
 }

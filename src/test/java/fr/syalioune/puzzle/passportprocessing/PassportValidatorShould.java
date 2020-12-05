@@ -42,18 +42,18 @@ public class PassportValidatorShould {
     return Stream.of(
         Arguments.arguments(Arrays.asList(new FieldValidator() {
           @Override
-          public boolean isValid(Passport password) {
+          public boolean isValid(Passport passport) {
             return false;
           }
         })),
         Arguments.arguments(Arrays.asList(new FieldValidator() {
           @Override
-          public boolean isValid(Passport password) {
+          public boolean isValid(Passport passport) {
             return true;
           }
         }, new FieldValidator() {
           @Override
-          public boolean isValid(Passport password) {
+          public boolean isValid(Passport passport) {
             return false;
           }
         }))
@@ -64,12 +64,12 @@ public class PassportValidatorShould {
     return Stream.of(
         Arguments.arguments(Arrays.asList(new FieldValidator() {
           @Override
-          public boolean isValid(Passport password) {
+          public boolean isValid(Passport passport) {
             return true;
           }
         }), new FieldValidator() {
           @Override
-          public boolean isValid(Passport password) {
+          public boolean isValid(Passport passport) {
             return true;
           }
         })

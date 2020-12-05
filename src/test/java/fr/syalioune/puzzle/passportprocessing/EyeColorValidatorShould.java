@@ -38,13 +38,20 @@ public class EyeColorValidatorShould {
     return Stream.of(
         Passport.builder().build(),
         Passport.builder().withEyeColor("  ").build(),
-        Passport.builder().withEyeColor("").build()
+        Passport.builder().withEyeColor("").build(),
+        Passport.builder().withEyeColor("gudesg").build()
     );
   }
 
   static Stream<Passport> validPassportSource() {
     return Stream.of(
-        Passport.builder().withEyeColor("e").build()
+        Passport.builder().withEyeColor("amb").build(),
+        Passport.builder().withEyeColor("blu").build(),
+        Passport.builder().withEyeColor("brn").build(),
+        Passport.builder().withEyeColor("gry").build(),
+        Passport.builder().withEyeColor("grn").build(),
+        Passport.builder().withEyeColor("hzl").build(),
+        Passport.builder().withEyeColor("oth").build()
     );
   }
 }

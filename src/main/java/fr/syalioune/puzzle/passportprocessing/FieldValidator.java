@@ -1,5 +1,5 @@
 package fr.syalioune.puzzle.passportprocessing;
 
 public interface FieldValidator {
-  boolean isValid(Passport password);
+  boolean isValid(Passport passport);
 }

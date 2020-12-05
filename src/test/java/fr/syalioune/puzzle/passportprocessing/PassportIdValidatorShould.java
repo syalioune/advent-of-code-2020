@@ -38,13 +38,16 @@ public class PassportIdValidatorShould {
     return Stream.of(
         Passport.builder().build(),
         Passport.builder().withPassportId("  ").build(),
-        Passport.builder().withPassportId("").build()
+        Passport.builder().withPassportId("").build(),
+        Passport.builder().withPassportId("djla").build(),
+        Passport.builder().withPassportId("0263").build(),
+        Passport.builder().withPassportId("ade78").build()
     );
   }
 
   static Stream<Passport> validPassportSource() {
     return Stream.of(
-        Passport.builder().withPassportId("p").build()
+        Passport.builder().withPassportId("000012345").build()
     );
   }
 }

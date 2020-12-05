@@ -38,13 +38,19 @@ public class BirthYearValidatorShould {
     return Stream.of(
         Passport.builder().build(),
         Passport.builder().withBirthYear("  ").build(),
-        Passport.builder().withBirthYear("").build()
+        Passport.builder().withBirthYear("").build(),
+        Passport.builder().withBirthYear("ab").build(),
+        Passport.builder().withBirthYear("20").build(),
+        Passport.builder().withBirthYear("1900").build(),
+        Passport.builder().withBirthYear("2003").build()
     );
   }
 
   static Stream<Passport> validPassportSource() {
     return Stream.of(
-        Passport.builder().withBirthYear("b").build()
+        Passport.builder().withBirthYear("1921").build(),
+        Passport.builder().withBirthYear("1920").build(),
+        Passport.builder().withBirthYear("2002").build()
     );
   }
 }
