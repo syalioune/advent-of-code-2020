@@ -10,7 +10,7 @@ public class Main {
 
   public static void main(String[] args) {
     try {
-      List<String> lines = Files.readAllLines(Path.of("src/main/resources/input.txt"));
+      List<String> lines = Files.readAllLines(Path.of("src/main/resources/report-repair-input.txt"));
       if(lines != null) {
         List<Integer> expenses = lines.stream().map(line -> Integer.parseInt(line)).collect(
             Collectors.toList());
