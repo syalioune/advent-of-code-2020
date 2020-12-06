@@ -17,7 +17,15 @@ public class Main {
         List<Integer> seatIds = lines.stream().map(line -> seatFinder.reset().find(line)).peek(s -> System.out.println(s)).sorted().collect(
             Collectors.toList());
         System.out.println("******************************");
-        System.out.println("Highest seat id :" + seatIds.get(seatIds.size()-1));
+        System.out.println("Highest seat : "+seatIds.get(seatIds.size()-1));
+        for (int i = 1; i < seatIds.size()-1; i++) {
+          int currentSeatId = seatIds.get(i);
+          int nexSeatId = seatIds.get(i+1);
+          if(nexSeatId == currentSeatId +2) {
+            System.out.println("My seat : "+(currentSeatId+1));
+            break;
+          }
+        }
       }
     } catch (IOException e) {
       e.printStackTrace();
