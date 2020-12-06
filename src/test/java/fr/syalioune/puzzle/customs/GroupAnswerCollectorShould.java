@@ -24,7 +24,7 @@ public class GroupAnswerCollectorShould {
   }
 
   @ParameterizedTest
-  @MethodSource("singleAnswerSource")
+  @MethodSource("singleAnswerWithYesFromAnyOneSource")
   public void correctlyListDistinctQuestionsWithAtLeastOneYesFromSingleAnswer(String answer, int nbOfYesAnswers) {
     // Arrange
     GroupAnswerCollector groupAnswerCollector = new GroupAnswerCollector();
@@ -37,7 +37,7 @@ public class GroupAnswerCollectorShould {
   }
 
   @ParameterizedTest
-  @MethodSource("multipleAnswerSource")
+  @MethodSource("multipleAnswerWithYesFromAnyOneSource")
   public void correctlyListDistinctQuestionsWithAtLeastOneYesFromMultipleAnswer(List<String> answer, int nbOfYesAnswers) {
     // Arrange
     GroupAnswerCollector groupAnswerCollector = new GroupAnswerCollector();
@@ -47,6 +47,19 @@ public class GroupAnswerCollectorShould {
 
     // Assert
     Assertions.assertEquals(nbOfYesAnswers, groupAnswerCollector.getDistinctQuestionsWithYesAnswers().size());
+  }
+
+  @ParameterizedTest
+  @MethodSource("multipleAnswerWithYesFromEveryoneSource")
+  public void correctlyListDistinctQuestionsWithYesFromEveryoneFromMultipleAnswer(List<String> answer, int nbOfYesAnswers) {
+    // Arrange
+    GroupAnswerCollector groupAnswerCollector = new GroupAnswerCollector();
+
+    // Act
+    answer.forEach(currentAnswer -> groupAnswerCollector.collect(currentAnswer));
+
+    // Assert
+    Assertions.assertEquals(nbOfYesAnswers, groupAnswerCollector.getDistinctQuestionsWithYesAnswersFromEveryOne().size());
   }
 
   static Stream<String> invalidAnswersSource() {
@@ -60,18 +73,27 @@ public class GroupAnswerCollectorShould {
     );
   }
 
-  static Stream<Arguments> singleAnswerSource() {
+  static Stream<Arguments> singleAnswerWithYesFromAnyOneSource() {
     return Stream.of(
         Arguments.arguments("abcx", 4),
         Arguments.arguments("abc", 3)
     );
   }
 
-  static Stream<Arguments> multipleAnswerSource() {
+  static Stream<Arguments> multipleAnswerWithYesFromAnyOneSource() {
     return Stream.of(
         Arguments.arguments(Arrays.asList("abcx", "abcy", "abcz"), 6),
         Arguments.arguments(Arrays.asList("a", "b", "c"), 3),
         Arguments.arguments(Arrays.asList("a", "a", "a"), 1)
+    );
+  }
+
+  static Stream<Arguments> multipleAnswerWithYesFromEveryoneSource() {
+    return Stream.of(
+        Arguments.arguments(Arrays.asList("abc"), 3),
+        Arguments.arguments(Arrays.asList("a", "b", "c"), 0),
+        Arguments.arguments(Arrays.asList("ab", "ac"), 1),
+        Arguments.arguments(Arrays.asList("b"), 1)
     );
   }
 
