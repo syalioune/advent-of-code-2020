@@ -1,27 +1,25 @@
 package fr.syalioune.puzzle.handyhaversacks;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class RuleParserShould {
+public class AffinityRuleParserShould {
 
   @ParameterizedTest
   @MethodSource("invalidRuleSource")
   public void rejectInvalidRules(String invalidRule) {
     // Arrange
-    RuleParser ruleParser = new RuleParser();
+    AffinityRuleParser affinityRuleParser = new AffinityRuleParser();
 
     // Act
-    Assertions.assertThrows(IllegalArgumentException.class, () -> ruleParser.parse(invalidRule));
+    Assertions.assertThrows(IllegalArgumentException.class, () -> affinityRuleParser.parse(invalidRule));
 
     // Assert
     // Nothing to be done
@@ -31,10 +29,10 @@ public class RuleParserShould {
   @MethodSource("rulesWithOnlyTwoBagsSource")
   public void correctlyMapRulesWithOnlyTwoBags(String rule, String firstBag, String secondBag) {
     // Arrange
-    RuleParser ruleParser = new RuleParser();
+    AffinityRuleParser affinityRuleParser = new AffinityRuleParser();
 
     // Act
-    Map<String, Set<String>> affinities = ruleParser.parse(rule);
+    Map<String, Set<String>> affinities = affinityRuleParser.parse(rule);
 
     // Assert
     Assertions.assertEquals(1, affinities.size());
@@ -46,10 +44,10 @@ public class RuleParserShould {
   @MethodSource("rulesWithMoreThanTwoBagsSource")
   public void correctlyMapRulesWithMoreThanTwoBags(String rule, String firstBag, List<String> bags) {
     // Arrange
-    RuleParser ruleParser = new RuleParser();
+    AffinityRuleParser affinityRuleParser = new AffinityRuleParser();
 
     // Act
-    Map<String, Set<String>> affinities = ruleParser.parse(rule);
+    Map<String, Set<String>> affinities = affinityRuleParser.parse(rule);
 
     // Assert
     Assertions.assertEquals(bags.size(), affinities.size());
@@ -65,10 +63,10 @@ public class RuleParserShould {
   @MethodSource("multipleRulesSource")
   public void correctlyMapMultipleRules(List<String> rules, Map<String,Set<String>> expectedAffinities) {
     // Arrange
-    RuleParser ruleParser = new RuleParser();
+    AffinityRuleParser affinityRuleParser = new AffinityRuleParser();
 
     // Act
-    Map<String, Set<String>> affinities = ruleParser.parse(rules);
+    Map<String, Set<String>> affinities = affinityRuleParser.parse(rules);
 
     // Assert
     Assertions.assertEquals(expectedAffinities.size(), affinities.size());
@@ -85,10 +83,10 @@ public class RuleParserShould {
   @MethodSource("voidRuleSource")
   public void correctlyIgnoreVoidRule(String rule) {
     // Arrange
-    RuleParser ruleParser = new RuleParser();
+    AffinityRuleParser affinityRuleParser = new AffinityRuleParser();
 
     // Act
-    Map<String, Set<String>> affinities = ruleParser.parse(rule);
+    Map<String, Set<String>> affinities = affinityRuleParser.parse(rule);
 
     // Assert
     Assertions.assertEquals(0, affinities.size());

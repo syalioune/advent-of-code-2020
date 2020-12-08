@@ -9,7 +9,7 @@ import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RuleParser {
+public class AffinityRuleParser {
 
   private static final Pattern VALID_PATTERN = Pattern.compile("(.+) bags contain (\\d+ (.+) bag[s]{0,1}[\\.|,]\\s*)+");
 
