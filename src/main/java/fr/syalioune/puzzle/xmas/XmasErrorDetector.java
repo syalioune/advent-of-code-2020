@@ -1,8 +1,6 @@
 package fr.syalioune.puzzle.xmas;
 
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 public class XmasErrorDetector {
 
