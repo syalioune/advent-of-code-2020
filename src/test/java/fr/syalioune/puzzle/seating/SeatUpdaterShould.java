@@ -5,7 +5,6 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 public class SeatUpdaterShould {
@@ -36,8 +35,8 @@ public class SeatUpdaterShould {
   }
 
   @ParameterizedTest
-  @MethodSource("fourOrMoreOccupiedAdjacentSeatsSource")
-  public void shouldTurnAnOccupiedSeatWithFourOrMoreAdjacentOccupiedSeatsToEmpty(int numberOfOccupiedAdjacentSeats) {
+  @MethodSource("fiveOrMoreOccupiedAdjacentSeatsSource")
+  public void shouldTurnAnOccupiedSeatWithFiveOrMoreAdjacentOccupiedSeatsToEmpty(int numberOfOccupiedAdjacentSeats) {
     // Arrange
     SeatUpdater seatUpdater = new SeatUpdater();
 
@@ -49,8 +48,8 @@ public class SeatUpdaterShould {
   }
 
   @ParameterizedTest
-  @MethodSource("upToThreeOccupiedAdjacentSeatsSource")
-  public void shouldNotChangeAnOccupiedSeatWithUpToThreeAdjacentOccupiedSeats(int numberOfOccupiedAdjacentSeats) {
+  @MethodSource("upToFourOccupiedAdjacentSeatsSource")
+  public void shouldNotChangeAnOccupiedSeatWithUpToFourAdjacentOccupiedSeats(int numberOfOccupiedAdjacentSeats) {
     // Arrange
     SeatUpdater seatUpdater = new SeatUpdater();
 
@@ -78,12 +77,12 @@ public class SeatUpdaterShould {
     return IntStream.range(1,9).boxed();
   }
 
-  static Stream<Integer> fourOrMoreOccupiedAdjacentSeatsSource() {
-    return IntStream.range(4,9).boxed();
+  static Stream<Integer> fiveOrMoreOccupiedAdjacentSeatsSource() {
+    return IntStream.range(5,9).boxed();
   }
 
-  static Stream<Integer> upToThreeOccupiedAdjacentSeatsSource() {
-    return IntStream.range(0,4).boxed();
+  static Stream<Integer> upToFourOccupiedAdjacentSeatsSource() {
+    return IntStream.range(0,5).boxed();
   }
 
   static Stream<Integer> allPossibleOccupiedAdjacentSeatsSource() {

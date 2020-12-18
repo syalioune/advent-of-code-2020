@@ -39,19 +39,19 @@ public class NeighbourHoodCalculatorShould {
         Arguments.arguments(0,0,2),
         Arguments.arguments(0,1,1),
         Arguments.arguments(0,2,3),
-        Arguments.arguments(0,3,1),
+        Arguments.arguments(0,3,3),
         Arguments.arguments(1,0,3),
-        Arguments.arguments(1,1,2),
+        Arguments.arguments(1,1,4),
         Arguments.arguments(1,2,4),
-        Arguments.arguments(1,3,0),
+        Arguments.arguments(1,3,3),
         Arguments.arguments(2,0,3),
         Arguments.arguments(2,1,2),
         Arguments.arguments(2,2,5),
-        Arguments.arguments(2,3,2),
+        Arguments.arguments(2,3,4),
         Arguments.arguments(3,0,2),
-        Arguments.arguments(3,1,1),
+        Arguments.arguments(3,1,3),
         Arguments.arguments(3,2,3),
-        Arguments.arguments(3,3,0)
+        Arguments.arguments(3,3,3)
     );
   }
 
