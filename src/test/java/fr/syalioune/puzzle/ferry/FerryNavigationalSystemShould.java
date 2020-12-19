@@ -23,7 +23,7 @@ public class FerryNavigationalSystemShould {
 
   @ParameterizedTest
   @MethodSource("validCardinalDirectionSource")
-  public void shouldMoveTheFerryInTheCorrectCardinalDirection(String instruction, int north, int south, int east, int west, Direction direction) {
+  public void shouldMoveTheWaypointInTheCorrectCardinalDirection(String instruction, int north, int south, int east, int west, Direction direction) {
     // Arrange
     Ferry ferry = new Ferry();
 
@@ -31,41 +31,54 @@ public class FerryNavigationalSystemShould {
     ferry.move(instruction);
 
     // Assert
-    Assertions.assertEquals(north, ferry.getNorth());
-    Assertions.assertEquals(south, ferry.getSouth());
-    Assertions.assertEquals(east, ferry.getEast());
-    Assertions.assertEquals(west, ferry.getWest());
-    Assertions.assertEquals(direction, ferry.getDirection());
+    Assertions.assertEquals(0, ferry.getNorth());
+    Assertions.assertEquals(0, ferry.getSouth());
+    Assertions.assertEquals(0, ferry.getEast());
+    Assertions.assertEquals(0, ferry.getWest());
+    Assertions.assertEquals(north, ferry.getWaypoint().getNorth());
+    Assertions.assertEquals(south, ferry.getWaypoint().getSouth());
+    Assertions.assertEquals(east, ferry.getWaypoint().getEast());
+    Assertions.assertEquals(west, ferry.getWaypoint().getWest());
   }
 
   @ParameterizedTest
   @MethodSource("validForwardDirectionSource")
-  public void shouldMoveTheFerryInTheCorrectForwardDirection(String instruction, Direction initialDirection, int north, int south, int east, int west) {
+  public void shouldMoveTheFerryInTheCorrectForwardDirection(String instruction, int north, int south, int east, int west, int factor) {
     // Arrange
-    Ferry ferry = new Ferry(initialDirection);
+    Ferry ferry = new Ferry();
 
     // Act
     ferry.move(instruction);
 
     // Assert
-    Assertions.assertEquals(north, ferry.getNorth());
-    Assertions.assertEquals(south, ferry.getSouth());
-    Assertions.assertEquals(east, ferry.getEast());
-    Assertions.assertEquals(west, ferry.getWest());
-    Assertions.assertEquals(initialDirection, ferry.getDirection());
+    Assertions.assertEquals(north, ferry.getWaypoint().getNorth());
+    Assertions.assertEquals(south, ferry.getWaypoint().getSouth());
+    Assertions.assertEquals(east, ferry.getWaypoint().getEast());
+    Assertions.assertEquals(west, ferry.getWaypoint().getWest());
+    Assertions.assertEquals(factor*north, ferry.getNorth());
+    Assertions.assertEquals(factor*south, ferry.getSouth());
+    Assertions.assertEquals(factor*east, ferry.getEast());
+    Assertions.assertEquals(factor*west, ferry.getWest());
   }
 
   @ParameterizedTest
   @MethodSource("validRotateDirectionSource")
-  public void shouldRotateTheFerryInTheCorrectDirection(String instruction, Direction initialDirection, Direction finalDirection) {
+  public void shouldRotateTheWaypointInTheCorrectDirection(String instruction, int north, int east, int south, int west) {
     // Arrange
-    Ferry ferry = new Ferry(initialDirection);
+    Ferry ferry = new Ferry();
 
     // Act
     ferry.move(instruction);
 
     // Assert
-    Assertions.assertEquals(finalDirection, ferry.getDirection());
+    Assertions.assertEquals(0, ferry.getNorth());
+    Assertions.assertEquals(0, ferry.getSouth());
+    Assertions.assertEquals(0, ferry.getEast());
+    Assertions.assertEquals(0, ferry.getWest());
+    Assertions.assertEquals(north, ferry.getWaypoint().getNorth());
+    Assertions.assertEquals(south, ferry.getWaypoint().getSouth());
+    Assertions.assertEquals(east, ferry.getWaypoint().getEast());
+    Assertions.assertEquals(west, ferry.getWaypoint().getWest());
   }
 
   static Stream<String> invalidInstructionSource() {
@@ -80,56 +93,29 @@ public class FerryNavigationalSystemShould {
 
   static Stream<Arguments> validCardinalDirectionSource() {
     return Stream.of(
-        Arguments.arguments("N3",3,0,0,0,Direction.EAST),
-        Arguments.arguments("S3",0,3,0,0,Direction.EAST),
-        Arguments.arguments("E3",0,0,3,0,Direction.EAST),
-        Arguments.arguments("W3",0,0,0,3,Direction.EAST)
+        Arguments.arguments("N3",4,0,10,0,Direction.EAST),
+        Arguments.arguments("S3",1,3,10,0,Direction.EAST),
+        Arguments.arguments("E3",1,0,13,0,Direction.EAST),
+        Arguments.arguments("W3",1,0,10,3,Direction.EAST)
     );
   }
 
   static Stream<Arguments> validForwardDirectionSource() {
     return Stream.of(
-        Arguments.arguments("F3",Direction.NORTH,3,0,0,0),
-        Arguments.arguments("F3",Direction.SOUTH,0,3,0,0),
-        Arguments.arguments("F3",Direction.EAST,0,0,3,0),
-        Arguments.arguments("F3",Direction.WEST,0,0,0,3)
+        Arguments.arguments("F10",1,0,10,0,10)
     );
   }
 
   static Stream<Arguments> validRotateDirectionSource() {
     return Stream.of(
-        Arguments.arguments("R90",Direction.EAST, Direction.SOUTH),
-        Arguments.arguments("R180",Direction.EAST, Direction.WEST),
-        Arguments.arguments("R270",Direction.EAST, Direction.NORTH),
-        Arguments.arguments("R360",Direction.EAST, Direction.EAST),
-        Arguments.arguments("R90",Direction.NORTH, Direction.EAST),
-        Arguments.arguments("R180",Direction.NORTH, Direction.SOUTH),
-        Arguments.arguments("R270",Direction.NORTH, Direction.WEST),
-        Arguments.arguments("R360",Direction.NORTH, Direction.NORTH),
-        Arguments.arguments("R90",Direction.SOUTH, Direction.WEST),
-        Arguments.arguments("R180",Direction.SOUTH, Direction.NORTH),
-        Arguments.arguments("R270",Direction.SOUTH, Direction.EAST),
-        Arguments.arguments("R360",Direction.SOUTH, Direction.SOUTH),
-        Arguments.arguments("R90",Direction.WEST, Direction.NORTH),
-        Arguments.arguments("R180",Direction.WEST, Direction.EAST),
-        Arguments.arguments("R270",Direction.WEST, Direction.SOUTH),
-        Arguments.arguments("R360",Direction.WEST, Direction.WEST),
-        Arguments.arguments("L90",Direction.EAST, Direction.NORTH),
-        Arguments.arguments("L180",Direction.EAST, Direction.WEST),
-        Arguments.arguments("L270",Direction.EAST, Direction.SOUTH),
-        Arguments.arguments("L360",Direction.EAST, Direction.EAST),
-        Arguments.arguments("L90",Direction.NORTH, Direction.WEST),
-        Arguments.arguments("L180",Direction.NORTH, Direction.SOUTH),
-        Arguments.arguments("L270",Direction.NORTH, Direction.EAST),
-        Arguments.arguments("L360",Direction.NORTH, Direction.NORTH),
-        Arguments.arguments("L90",Direction.SOUTH, Direction.EAST),
-        Arguments.arguments("L180",Direction.SOUTH, Direction.NORTH),
-        Arguments.arguments("L270",Direction.SOUTH, Direction.WEST),
-        Arguments.arguments("L360",Direction.SOUTH, Direction.SOUTH),
-        Arguments.arguments("L90",Direction.WEST, Direction.SOUTH),
-        Arguments.arguments("L180",Direction.WEST, Direction.EAST),
-        Arguments.arguments("L270",Direction.WEST, Direction.NORTH),
-        Arguments.arguments("L360",Direction.WEST, Direction.WEST)
+        Arguments.arguments("R360",1,10,0,0),
+        Arguments.arguments("R90",0,1,10,0),
+        Arguments.arguments("R180",0,0,1,10),
+        Arguments.arguments("R270",10,0,0,1),
+        Arguments.arguments("L360",1,10,0,0),
+        Arguments.arguments("L90",10,0,0,1),
+        Arguments.arguments("L180",0,0,1,10),
+        Arguments.arguments("L270",0,1,10,0)
     );
   }
 
