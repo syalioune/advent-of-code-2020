@@ -1,6 +1,7 @@
 package fr.syalioune.puzzle.docking;
 
-import java.util.stream.IntStream;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Assertions;
@@ -18,20 +19,20 @@ public class InitializationProgramShould {
     InitializationProgram program = new InitializationProgram(mask);
 
     // Act
-    Assertions.assertThrows(IllegalArgumentException.class, () -> program.applyMask(0L));
+    Assertions.assertThrows(IllegalArgumentException.class, () -> program.applyValueMask(0L));
 
     // Assert
     // Nothing to be done
   }
 
   @ParameterizedTest
-  @MethodSource("validMaskSource")
+  @MethodSource("validValueMaskSource")
   public void correctlyApplyTheMaskToAGivenNumber(String mask, Long number, Long transformedNumber) {
     // Arrange
     InitializationProgram program = new InitializationProgram(mask);
 
     // Act
-    Long maskedNumber = program.applyMask(number);
+    Long maskedNumber = program.applyValueMask(number);
 
     // Assert
     Assertions.assertEquals(transformedNumber, maskedNumber);
@@ -51,17 +52,50 @@ public class InitializationProgramShould {
   }
 
   @ParameterizedTest
-  @MethodSource("validMaskSource")
-  public void applyMaskWhenUpdatingMemory(String mask, Long number, Long transformedNumber) {
+  @MethodSource("validValueMaskSource")
+  public void applyMaskWhenUpdatingMemoryV1(String mask, Long number, Long transformedNumber) {
     // Arrange
     InitializationProgram program = new InitializationProgram(mask);
 
     // Act
-    program.setMemory(10L, number);
+    program.setMemoryV1(10L, number);
 
     // Assert
     Assertions.assertEquals(transformedNumber, program.getMemory(10L));
     Assertions.assertEquals(transformedNumber, program.getMemoryTotal());
+  }
+
+  @ParameterizedTest
+  @MethodSource("validAddressMaskSource")
+  public void correctlyApplyTheMaskToAGivenAddress(String mask, Long address, List<Long> decodedAddresses) {
+    // Arrange
+    InitializationProgram program = new InitializationProgram(mask);
+
+    // Act
+    List<Long> addresses = program.applyAddressMask(address);
+
+    // Assert
+    Assertions.assertNotNull(addresses);
+    Assertions.assertEquals(decodedAddresses.size(), addresses.size());
+    decodedAddresses.forEach(ad -> {
+      Assertions.assertTrue(addresses.contains(ad), () -> ad + " is not computed");
+    });
+  }
+
+  @ParameterizedTest
+  @MethodSource("validAddressMaskForMemoryUpdateSource")
+  public void applyMaskWhenUpdatingMemoryV2(String mask, Long address, List<Long> addresses, Long value) {
+    // Arrange
+    InitializationProgram program = new InitializationProgram(mask);
+
+    // Act
+    program.setMemoryV2(address, value);
+
+    // Assert
+    addresses.forEach(ad -> {
+      Assertions.assertEquals(value, program.getMemory(ad));
+    });
+    Assertions.assertEquals(addresses.size()*value, program.getMemoryTotal());
   }
 
   static Stream<String> invalidMaskSource() {
@@ -75,11 +109,24 @@ public class InitializationProgramShould {
     );
   }
 
-  static Stream<Arguments> validMaskSource() {
+  static Stream<Arguments> validValueMaskSource() {
     return Stream.of(
         Arguments.arguments("XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X",11L,73L),
         Arguments.arguments("XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X",101L,101L),
         Arguments.arguments("XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X",0L,64L)
+    );
+  }
+
+  static Stream<Arguments> validAddressMaskSource() {
+    return Stream.of(
+        Arguments.arguments("000000000000000000000000000000X1001X",42L, Arrays.asList(26L,27L,58L,59L)),
+        Arguments.arguments("00000000000000000000000000000000X0XX",26L, Arrays.asList(16L,17L,18L,19L,24L,25L,26L,27L))
+    );
+  }
+
+  static Stream<Arguments> validAddressMaskForMemoryUpdateSource() {
+    return Stream.of(
+        Arguments.arguments("00000000000000000000000000000000X0XX",26L, Arrays.asList(16L,17L,18L,19L,24L,25L,26L,27L),10L)
     );
   }
 

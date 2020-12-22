@@ -21,7 +21,7 @@ public class Main {
             Long value = Long.parseLong(operands[1].trim());
             String ad = operands[0].split("\\[")[1];
             Long address = Long.parseLong(ad.substring(0,ad.length()-2));
-            program.setMemory(address, value);
+            program.setMemoryV2(address, value);
           }
         });
         System.out.println(program.getMemoryTotal());
