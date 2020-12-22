@@ -41,6 +41,19 @@ public class ShuttleSearcherShould {
     Assertions.assertEquals(departureTimestamp, departure.getTimestamp());
   }
 
+  @ParameterizedTest
+  @MethodSource("validBusIdWithoutTimestampSource")
+  public void findTheEarliestDepartureTime(List<Integer> busIds, long expectedDepartureTime) {
+    // Arrange
+    ShuttleSearcher shuttleSearcher = new ShuttleSearcher();
+
+    // Act
+    Long departureTime = shuttleSearcher.findDepartureTime(busIds);
+
+    // Assert
+    Assertions.assertEquals(expectedDepartureTime, departureTime);
+  }
+
   static Stream<List<Integer>> invalidBusIdSource() {
     return Stream.of(
         Collections.emptyList(),
@@ -51,6 +64,16 @@ public class ShuttleSearcherShould {
   static Stream<Arguments> validBusIdSource() {
     return Stream.of(
         Arguments.arguments(939, Arrays.asList(7,13,59,31,19), 59, 944)
+    );
+  }
+
+  static Stream<Arguments> validBusIdWithoutTimestampSource() {
+    return Stream.of(
+        Arguments.arguments(Arrays.asList(17,-1,13,19), 3417),
+        Arguments.arguments(Arrays.asList(67,7,59,61), 754018),
+        Arguments.arguments(Arrays.asList(67,-1,7,59,61), 779210),
+        Arguments.arguments(Arrays.asList(67,7,-1,59,61), 1261476),
+        Arguments.arguments(Arrays.asList(1789,37,47,1889), 1202161486)
     );
   }
 
