@@ -87,7 +87,14 @@ public class RepeaterShould {
         Arguments.arguments(Arrays.asList(1,2,3), 2020, 27),
         Arguments.arguments(Arrays.asList(2,3,1), 2020, 78),
         Arguments.arguments(Arrays.asList(3,2,1), 2020, 438),
-        Arguments.arguments(Arrays.asList(3,1,2), 2020, 1836)
+        Arguments.arguments(Arrays.asList(3,1,2), 2020, 1836),
+        Arguments.arguments(Arrays.asList(0,3,6), 30000000, 175594),
+        Arguments.arguments(Arrays.asList(1,3,2), 30000000, 2578),
+        Arguments.arguments(Arrays.asList(2,1,3), 30000000, 3544142),
+        Arguments.arguments(Arrays.asList(1,2,3), 30000000, 261214),
+        Arguments.arguments(Arrays.asList(2,3,1), 30000000, 6895259),
+        Arguments.arguments(Arrays.asList(3,2,1), 30000000, 18),
+        Arguments.arguments(Arrays.asList(3,1,2), 30000000, 362)
     );
   }
 
